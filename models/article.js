@@ -6,9 +6,17 @@ const articleSchema = new mongoose.Schema({
     type: user.Schema,
     required: true,
   },
+  title: {
+    type: String,
+    required: true,
+  },
   body: {
     type: String,
     required: true,
+  },
+  date: {
+    type: Date,
+    required: false,
   }
 })
 

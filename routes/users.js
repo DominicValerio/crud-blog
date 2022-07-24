@@ -1,6 +1,7 @@
 const user = require('../models/user')
 const User = user.Model
 const router = require('express').Router()
+const crypto = require('crypto')
 
 // routes
 router.post('/', async (req, res) => {
@@ -9,7 +10,11 @@ router.post('/', async (req, res) => {
     if (!name) throw new Error("name was not provided to API")
     const password = req.body.password
     if (!password) throw new Error("password was not provided to API")
-    const user = new User({name: req.body.name})
+    const encrypted = crypto.createHash('sha256', password).digest('hex')
+    const user = new User({
+      name: name,
+      password: encrypted,
+    })
     const newUser = await user.save()
     res.status(201).json(newUser)
   } catch (err) {

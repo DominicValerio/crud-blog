@@ -5,10 +5,41 @@
 </head>
 
 <body>
-  <h1 style="margin-bottom: 10px">Blog Articles</h1>
-  <a href="articles/new" class="btn btn-success">Create New Article</a>
   <div class="container">
-    
+    <h1 style="margin-bottom: 10px">Blog Articles</h1>
+    <a href="articles/new" class="btn btn-success">Create New Article</a>
+    <% articles.forEach(article => { %>
+      <div class="card mt-4" style="margin-top: 4px">
+        <div class="card-body">
+          <h4 class="card-title" style="margin-bottom: 4px"><%- article.title %></h4>
+          <div class="card-subtitle text-muted"><em><%- article.author.name %></em></div>
+          <% if (article.date) {%>
+            <div class="card-subtitle text-muted">
+              <%= article.date.toLocaleDateString() %>
+            </div>
+          <% } %>
+          <div class="card-text"><%= article.body %></div>
+          <a href="articles/<%- article.id %>" class="btn btn-primary">Read More</a>
+          <a href="articles/<%- article.id %>/update" class="btn btn-secondary">Update</a>
+          <button type="submit" id="deletepost" value="<%- article.id %>" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    <% }) %>
   </div>
 </body>
+
+<script>
+document.querySelectorAll("#deletepost").forEach(v => {
+  v.addEventListener('click', (e) => {
+    const id = v.getAttribute('value')
+    fetch(`/articles/${id}`, {method: 'DELETE'}).then(async res => {
+      if (res.redirected) {
+        window.location = res.url
+      }
+    })
+  }) 
+})
+
+</script>
+
 </html>

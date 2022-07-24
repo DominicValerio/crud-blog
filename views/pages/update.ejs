@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include ("../partials/header.ejs") %>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Update Article</h1>
+    <%- include ("../partials/form-fields.ejs") %>
+  </div>
+</body>
+
+<script>
+$('input[type="submit"').click(e => {
+  const formdata = {
+    title: $("#title").val(),
+    body: $("#body").val()
+  }
+  fetch('/articles/<%- article.id %>', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formdata)
+  }).then(async res => {
+    console.log(await res.text())
+    if (res.redirected) {
+      window.location = res.url
+    }
+  })
+})
+</script>
+
+</html>

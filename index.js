@@ -22,11 +22,12 @@ const app = express()
 
 app.use(express.json())
   .use(express.static('public')) // set the static folder
+  .use(express.urlencoded({ extended: false})) // used to accept form parameters
   .use('/users', require('./routes/users'))
   .use('/articles', require('./routes/articles')) 
+  .use('/', require('./routes/index'))
   .set('views', 'views') // set the views folder
   .set('view engine', 'ejs') // set the view engine
-  .get('/', (req, res) => res.render('pages/index'))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
   
 
