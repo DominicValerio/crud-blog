@@ -1,7 +1,6 @@
 {
   "name": "blog",
-  "version": "0.3.0",
-  "description": "A sample Node.js app using Express 4",
+  "version": "0.1.0",
   "engines": {
     "node": "16.x"
   },
@@ -20,5 +19,5 @@
   "devDependencies": {
     "dotenv": "^16.0.1"
   },
-  "license": "MIT"
+  "license": "EULA"
 }
