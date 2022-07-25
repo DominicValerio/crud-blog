@@ -1,9 +1,15 @@
 const router = require('express').Router()
 const Article = require('../models/article').Model
 const User = require('../models/user').Model
+const auth = require('../authentication')
 
 router.get('/new', (req, res) => {
-  res.render('pages/new')
+  if (req.user) {
+    res.render('pages/new', {user: user})
+  } else {
+    req.method = "post"
+    res.redirect('../users/login')
+  }
 })
 
 router.get('/:id/update', async (req, res) => {

@@ -7,6 +7,7 @@
 <body>
   <%- include ("../partials/navbar.ejs") %>
   <div class="container">
+    <% if (locals.user) { %> Welcome <%- user.name %>  <% } %> 
     <h1 style="margin-bottom: 10px">Blog Articles</h1>
     <a href="articles/new" class="btn btn-success">Create New Article</a>
     <% articles.forEach(article => { %>
@@ -14,12 +15,8 @@
         <div class="card-body">
           <h4 class="card-title" style="margin-bottom: 4px"><%- article.title %></h4>
           <div class="card-subtitle text-muted"><em><%- article.author.name %></em></div>
-          <% if (article.date) {%>
-            <div class="card-subtitle text-muted">
-              <%= article.date.toLocaleDateString() %>
-            </div>
-          <% } %>
-          <div class="card-text"><%= article.body %></div>
+          <div class="card-subtitle text-muted"><%= article.date.toLocaleDateString() %></div>
+          <div class="card-text"><%- article.body %></div>
           <a href="articles/<%- article.id %>" class="btn btn-primary">Read More</a>
           <a href="articles/<%- article.id %>/update" class="btn btn-secondary">Update</a>
           <button type="submit" id="deletepost" value="<%- article.id %>" class="btn btn-danger">Delete</button>
@@ -41,6 +38,13 @@ document.querySelectorAll("#deletepost").forEach(v => {
   }) 
 })
 
+</script>
+
+<script>
+  // var jwt = document.cookie.match(/access-token=(.*)/)[1].toString().split('.')
+  // var header = atob(jwt[0])
+  // var body = atob(jwt[1])
+  // console.log(header, body)
 </script>
 
 </html>

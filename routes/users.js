@@ -1,10 +1,8 @@
-const user = require('../models/user')
-const User = user.Model
+const User = require('../models/user').Model
 const router = require('express').Router()
-const crypto = require('crypto')
+const auth = require('../authentication')
 
 
-// routes
 router.get('/register', (req, res) => {
   res.render('pages/register')
 })
@@ -13,18 +11,24 @@ router.post('/register', async (req, res) => {
   try {
     const username = req.body.username
     if (!username) throw new Error("name was not provided to API")
-    if (await User.find({name: username}).exec().length > 0) throw new Error("User with username already exists")
     const password = req.body.password
     if (!password) throw new Error("password was not provided to API")
+    if (await User.findOne({name: username}).lean()) res.status(400).render("pages/register", {message: "Username already exists", username: username, password: password})
+
     const user = new User({
       name: username,
-      password: hashPassword(password, process.env.SALT),
+      password: auth.hashPassword(password, process.env.SALT),
     })
     const newUser = await user.save()
     res.status(201).redirect(`${req.baseUrl}/login`)
   } catch (err) {
     res.status(400).json({message: err.message})
   }
+})
+
+router.post('/signout', (req, res) => {
+  res.clearCookie('access-token')
+  res.redirect('/')
 })
 
 router.get('/login', (req, res) => {
@@ -34,66 +38,29 @@ router.get('/login', (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const {username, password} = req.body
-    const users = await User.find({name: username}).exec()
-    const user = users[0]
+    const user = await User.findOne({name: username}).exec()
     if (user) {
       const [salt, hash] = user.password.split(':')
-      if(compare(hashPassword(password, salt), user.password)) {
-        return res.render("pages/login", {message: "Sucess"})
+      if(auth.compare(auth.hashPassword(password, salt), user.password)) {
+        const accesstoken = auth.createToken(user)
+
+        res.cookie('access-token', accesstoken, {
+          maxAge: 1000 * 60 * 60 * 24, // 24 hours
+        })
+        return res.redirect("/")
       }
       else {
+        res.status(400)
         return res.render("pages/login", {message: "Wrong password", username: username, password: password})
       }
     } 
-    return res.render("pages/login", {message: "No user with name " + username})
+    res.status(400)
+    return res.render("pages/login", {message: "No user with name " + username, username: username, password: password})
   } catch (err) {
     res.status(500).json({message: err.message})
   }
 })
 
-// router.get('/:username', findUser, (req, res) => {
-//   res.json(res.user)
-// })
-
-router.delete('/:userId', findUser, async (req, res) => {
-  try {
-    await res.user.remove()
-    res.json({message: `Deleted user ${res.user.name}`})
-  } catch(err) {
-    res.status(500).json({message: err.message})
-  }
-})
-
-// middleware
-async function findUser(req, res, next) {
-  try {
-    const user = await User.findById(req.params.userId)
-    if(user == null) {
-      return res.status(404).json({message: "Couldn't find user"})
-    }
-    res.user = user
-  } catch(err) {
-    if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
-      return res.status(500).json({message: err.message})
-    } else {
-      return res.status(404).json({message: "Couldn't find user. Id doesn't have the correct length or format"})
-    }
-  }
-  next()
-}
-
-// password logic
-function hashPassword(password, salt) {
-  const hashed = crypto.scryptSync(password, salt, 32).toString('base64')
-  return `${salt}:${hashed}`
-}
-
-/**
- * @param {String} hashA
- * @param {String} hashB 
- */
-function compare(hashA, hashB) {
-  return crypto.timingSafeEqual(Buffer.from(hashA), Buffer.from(hashB))
-}
-
 module.exports = router
+
+
