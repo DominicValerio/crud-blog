@@ -18,7 +18,7 @@ function compare(hashA, hashB) {
 /**
  * 
  * @param {User} user 
- * @returns {string} `accesstoken`
+ * @returns {string} `accessToken`
  */
 const createToken = (user) => jwt.sign({id: user.id}, process.env.ACCESS_TOKEN_SECRET)
 
@@ -47,6 +47,7 @@ async function validateUser(req, res, next) {
     if(validToken) {
       const id = jwt.decode(accesstoken)["id"]
       const user = await User.findById(id).lean()
+      req.user = user
       res.locals.user = user
     }
   } catch(err) {

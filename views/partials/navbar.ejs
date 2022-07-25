@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item active">
+      <li class="nav-item ">
         <a class="nav-link" href="/">Home</a>
       </li>
       <% if (locals.user) {%> 
         <li class="nav-item">
-          <form action="/users/signout" method="post" class="nav-item">
-            <a class="nav-link" onclick='$("form").submit()'>Signout</a>
+          <form action="/users/signout" method="post"></form>
+            <a class="nav-link" onclick='$("form").submit()' style="cursor: pointer">Signout</a>
           </form>
         </li>
       <%} else { %>

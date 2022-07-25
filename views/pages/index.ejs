@@ -18,8 +18,10 @@
           <div class="card-subtitle text-muted"><%= article.date.toLocaleDateString() %></div>
           <div class="card-text"><%- article.body %></div>
           <a href="articles/<%- article.id %>" class="btn btn-primary">Read More</a>
-          <a href="articles/<%- article.id %>/update" class="btn btn-secondary">Update</a>
-          <button type="submit" id="deletepost" value="<%- article.id %>" class="btn btn-danger">Delete</button>
+          <% if (locals.user && user._id == article.author.id) { %> 
+            <a href="articles/<%- article.id %>/update" class="btn btn-secondary">Update</a>
+            <button type="submit" id="deletepost" value="<%- article.id %>" class="btn btn-danger">Delete</button>
+          <%} %> 
         </div>
       </div>
     <% }) %>

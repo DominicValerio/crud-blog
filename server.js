@@ -7,12 +7,13 @@ const auth = require('./authentication')
 const PORT = process.env.PORT || 5000
 
 // setup
+let db;
 (async () => {
   await mongoose.connect(process.env.DATABASE_URI, { 
     useNewUrlParser: true,
     dbName: 'app'
   })
-  let db = mongoose.connection
+  db = mongoose.connection
   
   console.log('Connected to database') 
 })()

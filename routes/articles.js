@@ -5,7 +5,7 @@ const auth = require('../authentication')
 
 router.get('/new', (req, res) => {
   if (req.user) {
-    res.render('pages/new', {user: user})
+    res.render('pages/new')
   } else {
     req.method = "post"
     res.redirect('../users/login')
@@ -32,11 +32,12 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req, res) => {
   try {
-    const user = await User.findById("62dcad4665567d9311973eba")
+    if(!req.user) return res.status(400).send('No user for this post')
+    res.status(400)
     const article = new Article({ 
-      author: user,
+      author: req.user,
       title: req.body.title,
       body: req.body.body,
       date: new Date()
@@ -52,6 +53,7 @@ router.put('/:id', async (req, res) => {
   try {
     const article = await Article.findById(req.params.id)
     if(!article) return res.status(404).send('Not found')
+    if(!req.user || req.user._id != article.author.id) return res.status(400).send('Not allowed')
     await article.updateOne({body: req.body.body, title: req.body.title})
     res.redirect('/')
   } catch(err) {
@@ -62,6 +64,8 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const article = await Article.findById(req.params.id)
+    if(!article) return res.status(404).send('Article not found')
+    if(!req.user || req.user._id != article.author.id) return res.status(400).send('Not allowed')
     await article.delete()
     res.redirect('/')
   } catch(err) {

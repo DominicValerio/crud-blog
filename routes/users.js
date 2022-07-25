@@ -17,7 +17,7 @@ router.post('/register', async (req, res) => {
 
     const user = new User({
       name: username,
-      password: auth.hashPassword(password, process.env.SALT),
+      password: auth.hashPassword(password, process.env.SALT_SECRET),
     })
     const newUser = await user.save()
     res.status(201).redirect(`${req.baseUrl}/login`)
