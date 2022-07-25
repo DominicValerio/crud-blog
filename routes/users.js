@@ -31,6 +31,10 @@ router.get('/', async (req, res) => {
   }
 })
 
+router.get('/login', (req, res) => {
+  res.render('pages/login')
+})
+
 router.get('/:userId', findUser, (req, res) => {
   res.json(res.user)
 })

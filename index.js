@@ -28,6 +28,6 @@ app.use(express.json())
   .use('/', require('./routes/index'))
   .set('views', 'views') // set the views folder
   .set('view engine', 'ejs') // set the view engine
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+  .listen(PORT, () => console.log(`Listening on http://localhost:${ PORT }`))
   
 
