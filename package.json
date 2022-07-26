@@ -8,8 +8,9 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon server.js",
+    "deploy": "git push heroku",
     "dev heroku": "heroku local web",
-    "deploy": "git push heroku"
+    "restart remote": "heroku restart"
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
