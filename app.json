@@ -1,24 +1,7 @@
 {
-  "name": "Small Sharp Tool",
-  "description": "This app does one little thing, and does it well.",
-  "keywords": [
-    "productivity",
-    "HTML5",
-    "scalpel"
-  ],
+  "name": "Blog",
+  "description": "",
+  "keywords": [""],
   "logo": "https://small-sharp-tool.com/logo.svg",
-  "website": "",
-  "env": {
-    "SECRET_TOKEN": {
-      "description": "A secret key for verifying the integrity of signed cookies.",
-      "generator": "secret"
-    },
-    "WEB_CONCURRENCY": {
-      "description": "The number of processes to run.",
-      "value": "5"
-    },
-    "DATABASE_URI": {
-      "value": "mongodb+srv://admin:l61LmnRi8B2QVcZT@cluster0.dossyvx.mongodb.net/"
-    }
-  }
+  "website": ""
 }
