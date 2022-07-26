@@ -19,6 +19,9 @@
     "WEB_CONCURRENCY": {
       "description": "The number of processes to run.",
       "value": "5"
+    },
+    "DATABASE_URI": {
+      "value": "mongodb+srv://admin:l61LmnRi8B2QVcZT@cluster0.dossyvx.mongodb.net/"
     }
   }
 }
