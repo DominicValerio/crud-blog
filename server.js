@@ -21,11 +21,6 @@ let db;
 
 const app = express()
 
-app.get('/e', (req, res, next) => {
-  res.status(500)
-  next('my error')
-})
-
 // middleware
 app.use(express.json())
   .set('views', 'views') // set the views folder
