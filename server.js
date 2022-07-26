@@ -8,20 +8,24 @@ const PORT = process.env.PORT || 5000
 
 // setup
 let db;
-(async () => {
-  await mongoose.connect(process.env.DATABASE_URI, { 
-    useNewUrlParser: true,
-    dbName: 'app'
-  })
-  db = mongoose.connection
+mongoose.connect(process.env.DATABASE_URI, { 
+  useNewUrlParser: true,
+  dbName: 'app'
+})
+console.log('Connected to database') 
+db = mongoose.connection
+// (async () => {
   
-  console.log('Connected to database') 
-})()
+  
+  
+// })()
 
 const app = express()
 
 // middleware
 app.use(express.json())
+  .set('views', 'views') // set the views folder
+  .set('view engine', 'ejs') // set the view engine
   .use(require('cookie-parser')()) // used to have req.cookies
   .use(auth.validateUser)
   .use(express.static('public')) // set the static folder
@@ -30,8 +34,6 @@ app.use(express.json())
   .use('/users', require('./routes/users'))
   .use('/articles', require('./routes/articles')) 
   .use('/', require('./routes/index'))
-  .set('views', 'views') // set the views folder
-  .set('view engine', 'ejs') // set the view engine
   .listen(PORT, () => console.log(`Listening on http://localhost:${ PORT }`))
   
 

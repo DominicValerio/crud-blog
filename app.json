@@ -7,10 +7,7 @@
     "scalpel"
   ],
   "logo": "https://small-sharp-tool.com/logo.svg",
-  "success_url": "/",
-  "scripts": {
-    "postdeploy": "npm start"
-  },
+  "website": "",
   "env": {
     "SECRET_TOKEN": {
       "description": "A secret key for verifying the integrity of signed cookies.",
