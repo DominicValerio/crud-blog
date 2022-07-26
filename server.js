@@ -14,8 +14,10 @@ let db;
 (async () => {
   mongoose.connect(process.env.DATABASE_URI, { 
     useNewUrlParser: true,
-    dbName: 'app'
-  })
+    dbName: 'app',
+    keepAlive: true,
+    keepAliveInitialDelay: 300000
+  }, (initialErr) => {})
   console.log('Connected to database') 
   db = mongoose.connection
 
