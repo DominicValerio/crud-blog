@@ -6,6 +6,8 @@ const mongoose = require('mongoose')
 const auth = require('./authentication')
 const PORT = process.env.PORT || 5000
 
+console.log(process.env)
+
 // setup
 let db;
 
