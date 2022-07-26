@@ -8,6 +8,7 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon server.js",
+    "dev heroku": "heroku local web",
     "deploy": "git push heroku"
   },
   "dependencies": {
