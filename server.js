@@ -8,17 +8,17 @@ const PORT = process.env.PORT || 5000
 
 // setup
 let db;
-mongoose.connect(process.env.DATABASE_URI, { 
-  useNewUrlParser: true,
-  dbName: 'app'
-})
-console.log('Connected to database') 
-db = mongoose.connection
-// (async () => {
+
+(async () => {
+  mongoose.connect(process.env.DATABASE_URI, { 
+    useNewUrlParser: true,
+    dbName: 'app'
+  })
+  console.log('Connected to database') 
+  db = mongoose.connection
+
   
-  
-  
-// })()
+})()
 
 const app = express()
 
