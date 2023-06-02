@@ -1,1 +1,1 @@
-https://crud-blog-node.herokuapp.com/
+A blog website where anyone can register, login, then write an article. It uses express.js and server-side rendering via a templating engine. Each password is encrypted with a salt and hash before it’s sent to the database. Sessions persist by using JSON web tokens and storing them as cookies in the browser. Used to be a herokuapp, but the free tier got changed so it's just source code for now.
